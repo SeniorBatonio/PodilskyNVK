@@ -1,0 +1,36 @@
+﻿@model IEnumerable<PodilskyNVK.Models.Employee>
+
+@{
+    ViewBag.Title = "ListEmployees";
+}
+
+<h1>@ViewBag.Header</h1>
+
+<div class="inner-content">
+
+    @foreach (var item in Model)
+    {
+        <div class="news-less">
+            <div class="photo">
+                @if (item.Photo.Length != 0)
+                {
+                    @Html.Raw("<img src=\"data:image/jpeg;base64,"
+                                             + Convert.ToBase64String(item.Photo) + "\" />")
+                }
+                else
+                {
+                    <img src="~/Content/NullPhoto.png" />
+                }
+            </div>
+            <div class="news-content">
+                <h2 style="font-weight:bold;">@item.Position:</h2>
+                <h2>@item.Name</h2>
+
+                <div class="news-text">
+                    <p>@item.AboutEmploee</p>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

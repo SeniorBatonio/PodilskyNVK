@@ -1,0 +1,53 @@
+﻿@model PodilskyNVK.Models.Post
+
+@{
+    ViewBag.Title = "GetPost";
+}
+
+    <div class="post">
+        @if (Model.Photos.Count > 0)
+        {
+            <div class="post-photo">
+
+                @Html.Raw("<img class='post-image' src=\"data:image/jpeg;base64,"
+                                            + Convert.ToBase64String(Model.Photos.First().Image) + "\" />")
+
+            </div>
+        }
+        <h2>@Model.Header</h2>
+        <hr />
+        <p>@Model.Text</p>
+        <div class="post-photos">
+            @foreach (var photo in Model.Photos.Skip(1))
+            {
+                @Html.Raw("<img class='post-image' src=\"data:image/jpeg;base64,"
+                                            + Convert.ToBase64String(photo.Image) + "\" />")
+            }
+        </div>
+
+        <hr />
+        @{
+            string themes = "";
+            foreach (var theme in Model.Themes)
+            {
+                if (theme == Model.Themes.Last())
+                {
+                    themes += theme.Name;
+                }
+                else
+                {
+                    themes += theme.Name + ", ";
+                }
+
+            }
+        }
+
+    <div style="height:20px; margin:0;" ;>
+        <p style="float:left;">Теми: @themes</p>
+        <p style="float:right">@Model.CreationDateTime.ToString("dd.MM.yy  H:mm")</p>
+    </div>
+    </div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
