@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace PodilskyNVK.Controllers
 {
+    [RequireHttps]
     public class ForStudentsController : Controller
     {
         IRepository repository;
@@ -40,6 +41,12 @@ namespace PodilskyNVK.Controllers
             ViewBag.Header = "Корисна інформація";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "Корисна інформація"));
             return View("NewsFeed", news);
+        }
+
+        public ActionResult LessonsSchedule()
+        {
+            
+            return View();
         }
     }
 }

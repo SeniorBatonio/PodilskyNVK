@@ -8,10 +8,8 @@
         @if (Model.Photos.Count > 0)
         {
             <div class="post-photo">
-
                 @Html.Raw("<img class='post-image' src=\"data:image/jpeg;base64,"
-                                            + Convert.ToBase64String(Model.Photos.First().Image) + "\" />")
-
+                     + Convert.ToBase64String(Model.Photos.First().Image) + "\" />")
             </div>
         }
         <h2>@Model.Header</h2>
@@ -48,6 +46,15 @@
     </div>
     </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редагувати", "EditPost", new { id = Model.Id }) |
+    @Html.ActionLink("Видалити", "DeletePost", new { id = Model.Id}, new { @class="confirmation"  })
 </p>
+
+@section Scripts
+{
+    <script>
+         $('.confirmation').on('click', function () {
+        return confirm('Ви впевнені що хочете видалити цей пост?');
+    });
+    </script>    
+}

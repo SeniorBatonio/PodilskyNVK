@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Подільський НВК</title>
@@ -10,45 +10,46 @@
 </head>
 <body>
     <nav>
-            <div class="nav-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Подільський НВК", "Index", "Home", new { area = "" }, new { @class = "nav-brand" })
-            </div>
-            <ul class="menu">
-                <li>@Html.ActionLink("Головна", "Index", "Home")</li>
-                <li>
-                    @Html.ActionLink("Батькам", "Index", "ForParents")
-                </li>
-                <li>
-                    @Html.ActionLink("Учням", "Index", "ForStudents")
-                    <ul class="submenu">
-                        <li>@Html.ActionLink("ЗНО та ДПА", "ZNOandDPA", "ForStudents")</li>
-                        <li>@Html.ActionLink("Безпека життєдіяльності", "LifeSafety", "ForStudents")</li>
-                        <li>@Html.ActionLink("Розклад уроків", "LessonsSchedule", "ForStudents")</li>
-                        <li>@Html.ActionLink("Корисна інформація", "UsefulInformation", "ForStudents")</li>
-                    </ul>
-                </li>
-                <li>
-                    @Html.ActionLink("Про школу", "Index", "AboutSchool")
-                    <ul class="submenu">
-                        <li>@Html.ActionLink("Історія школи", "SchoolHistory", "AboutSchool")</li>
-                        <li>@Html.ActionLink("Адміністрація", "Administration", "AboutSchool")</li>
-                        <li>@Html.ActionLink("Вчительська", "TeachersLounge", "AboutSchool")</li>
-                        <li>@Html.ActionLink("Методична робота", "MethodicalWork", "AboutSchool")</li>
-                        <li>@Html.ActionLink("Допомога школі", "SchoolHelp", "AboutSchool")</li>
-                        <li>@Html.ActionLink("НУШ", "NUS", "AboutSchool")</li>
-                        <li>@Html.ActionLink("Документи", "Documents", "AboutSchool")</li>
-                        <li>@Html.ActionLink("Бібліотека", "Library", "AboutSchool")</li>
-                        <li>@Html.ActionLink("Дошкілля", "PreSchool", "AboutSchool")</li>
-                    </ul>
-                </li>
-                <li>@Html.ActionLink("Галерея", "Index", "Gallery")</li>
-                <li>@Html.ActionLink("Контакти", "Contact", "Home")</li>
-            </ul>
+        <div class="nav-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Подільський НВК", "Index", "Home", new { area = "" }, new { @class = "nav-brand" })
+        </div>
+        <ul class="menu">
+            <li>@Html.ActionLink("Головна", "Index", "Home")</li>
+            <li>
+                @Html.ActionLink("Батькам", "Index", "ForParents")
+            </li>
+            <li>
+                @Html.ActionLink("Учням", "Index", "ForStudents")
+                <ul class="submenu">
+                    <li>@Html.ActionLink("ЗНО та ДПА", "ZNOandDPA", "ForStudents")</li>
+                    <li>@Html.ActionLink("Безпека життєдіяльності", "LifeSafety", "ForStudents")</li>
+                    <li>@Html.ActionLink("Розклад уроків", "LessonsSchedule", "ForStudents")</li>
+                    <li>@Html.ActionLink("Корисна інформація", "UsefulInformation", "ForStudents")</li>
+                </ul>
+            </li>
+            <li>
+                @Html.ActionLink("Про школу", "Index", "AboutSchool")
+                <ul class="submenu">
+                    <li>@Html.ActionLink("Історія школи", "SchoolHistory", "AboutSchool")</li>
+                    <li>@Html.ActionLink("Адміністрація", "Administration", "AboutSchool")</li>
+                    <li>@Html.ActionLink("Вчительська", "TeachersLounge", "AboutSchool")</li>
+                    <li>@Html.ActionLink("Методична робота", "MethodicalWork", "AboutSchool")</li>
+                    <li>@Html.ActionLink("Допомога школі", "SchoolHelp", "AboutSchool")</li>
+                    <li>@Html.ActionLink("НУШ", "NUS", "AboutSchool")</li>
+                    <li>@Html.ActionLink("Документи", "Documents", "AboutSchool")</li>
+                    <li>@Html.ActionLink("Бібліотека", "Library", "AboutSchool")</li>
+                    <li>@Html.ActionLink("Дошкілля", "PreSchool", "AboutSchool")</li>
+                </ul>
+            </li>
+            <li>@Html.ActionLink("Галерея", "Index", "Gallery")</li>
+            <li>@Html.ActionLink("Контакти", "Contact", "Home")</li>
+        </ul>
+        @Html.Partial("_LoginPartial")
     </nav>
     <div class="body-content">
         <div class="content">
@@ -64,5 +65,6 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

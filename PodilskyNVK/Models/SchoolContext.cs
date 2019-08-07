@@ -8,6 +8,7 @@ namespace PodilskyNVK.Models
 {
     public interface IRepository
     {
+        void AddPost(Post post);
         void SavePost(Post post);
         void SaveEmployee(Employee employee);
         void SavePhoto(Photo photo);
@@ -17,7 +18,8 @@ namespace PodilskyNVK.Models
         IEnumerable<Photo> PhotoList();
         Post GetPost(int id);
         Theme GetTheme(int id);
-
+        void SavePhotos(IEnumerable<Photo> photos);
+        void DeletePost(int id);
     }
     public class SchoolContext : DbContext
     {
@@ -49,9 +51,15 @@ namespace PodilskyNVK.Models
             return db.Employees.ToList();
         }
 
-        public void SavePost(Post post)
+        public void AddPost(Post post)
         {
             db.Posts.Add(post);
+            db.SaveChanges();
+        }
+
+        public void SavePost(Post post)
+        {
+            db.Entry(post).State = EntityState.Modified;
             db.SaveChanges();
         }
 
@@ -67,7 +75,7 @@ namespace PodilskyNVK.Models
 
         public IEnumerable<Theme> ThemesList()
         {
-            return db.Themes.ToList();
+            return db.Themes.ToList().Where(t => t.Name != "Історія школи");
         }
 
         public Theme GetTheme(int id)
@@ -95,6 +103,23 @@ namespace PodilskyNVK.Models
         public IEnumerable<Photo> PhotoList()
         {
             return db.Photos.ToList();
+        }
+
+        public void SavePhotos(IEnumerable<Photo> photos)
+        {
+            db.Photos.AddRange(photos);
+            db.SaveChanges();
+        }
+
+        public void DeletePost(int id)
+        {
+            Post p = GetPost(id);
+            if (p != null)
+            {
+                db.Photos.RemoveRange(p.Photos);
+                db.Posts.Remove(p);
+                db.SaveChanges();
+            }
         }
     }
 

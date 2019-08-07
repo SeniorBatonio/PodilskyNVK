@@ -39,9 +39,9 @@ nav {
     height: 60px;
     border-radius: 0;
     top: 0px;
-    position: fixed;
+    position:fixed;
     width: 100%;
-    min-width: 1050px;
+    min-width: 1150px;
     z-index: 99999999;
 }
 
@@ -67,13 +67,12 @@ nav {
 
 ul {
     font-family: 'Times New Roman', Times, serif;
-    width: 50%;
+    width:auto;
     float: left;
     display: block;
     margin: 0;
     padding: 0;
     list-style: none;
-    min-width: 600px;
     height:inherit;
 }
 
@@ -199,9 +198,78 @@ ul.menu > li:hover > ul.submenu {
     font-style: italic;
 }
 
-.gallery img {
+.gallery .squarePhoto {
     object-fit: cover;
     width:  230px;
     height: 230px;
     margin: 10px;
+    cursor: pointer;
+}
+
+.autorize-container{
+    height:inherit;
+    float:right;
+    display:flex;
+    flex-direction:row-reverse;
+    justify-content:flex-end;
+    align-items:center;
+    margin-right:20px;
+    position:relative;
+}
+
+.autorize-item {
+    height: 80%;
+    margin: 5px;
+    align-self: center;
+    width: auto;
+    font-size: 15px;
+    position: relative;
+    display: block;
+}
+
+.btn-login:hover, .btn-register:hover{
+    text-decoration:none;
+    color:white;
+}
+
+.btn-login {
+    position: relative;
+    display: block;
+    background: none;
+    color: white;
+    height: inherit;
+    padding: 10px 15px;
+}
+
+.btn-register {
+    position: relative;
+    display: block;
+    background-color: yellow;
+    color: white;
+    border-radius: 5px;
+    height: inherit;
+    padding: 10px 15px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-input {
+    width: 30px;
+    height: 30px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.edit-image, .new-photo {
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.edit-image:hover, .new-photo:hover {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    border: 2px solid red;
 }

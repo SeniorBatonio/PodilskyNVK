@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace PodilskyNVK.Controllers
 {
+    [RequireHttps]
     public class ForParentsController : Controller
     {
         IRepository repository;

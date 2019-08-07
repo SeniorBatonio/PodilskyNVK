@@ -1,21 +1,23 @@
 ﻿@model PodilskyNVK.Models.Post
 
 @{
-    /**/
-
-    ViewBag.Title = "AddPost";
+    ViewBag.Title = "EditPost";
+    int i = 0;
+    int k = 0;
 }
 
-<h2>Додати новину</h2>
+<h2>Редагувати пост</h2>
 
 
-@using (Html.BeginForm("AddPost", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditPost", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-
+    
 <div class="form-horizontal">
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
     <div class="form-group">
         @Html.LabelFor(model => model.Header, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -32,17 +34,23 @@
         </div>
     </div>
 
-    <div id="themes-block">
-        <div class="form-group" name="theme">
-            @Html.Label("Тема 1", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("selectedThemes[0]", ViewBag.Themes as SelectList, new { id = "theme", @class = "form-control" })
-            </div>
-        </div>
-    </div>
+    @if (!Model.Themes.Any(t => t.Name == "Історія школи"))
+    {
+        <div id="themes-block">
+            @for (i = 0; i < ViewBag.Themes.Count; ++i)
+            {
+                <div class="form-group" name ="theme">
 
-    <p style="margin-left:250px;"><a class="addLink">Додати тему</a></p>
-    <p style="margin-left:250px;"><a class="delLink">Видалити тему</a></p>
+                    @Html.Label("Тема " + (i + 1), htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("selectedThemes[" + i + "]", ViewBag.Themes[i] as SelectList, new { id = "theme", @class = "form-control" })
+                    </div>
+                </div>
+            }
+        </div>
+        <p style="margin-left:250px;"><a class="addLink">Додати тему</a></p>
+        <p style="margin-left:250px;"><a class="delLink">Видалити тему</a></p>
+    }
 
     <div class="form-group">
         @Html.Label("Додати фото", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -58,6 +66,12 @@
     <div class="form-group">
         @Html.Label("Видалити фото", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10" id="photos">
+            @foreach (var photo in Model.Photos)
+            {
+                @Html.Raw("<img id=" + photo.Id + " onclick='removeImg(this)'  class='edit-image' src=\"data:image/jpeg;base64,"
+          + Convert.ToBase64String(photo.Image) + "\" />")
+                k++;
+            }
 
         </div>
     </div>
@@ -76,22 +90,17 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Створити" class="btn btn-default" />
+            <input type="submit" value="Save" class="btn btn-default" />
         </div>
     </div>
 </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Content/AddEditScripts.js")
-
-    <script>
-        var index = 0;
+<script>
+   var index = @i - 1;
         $('.addLink').click(function () {
             index++;
             var el = document.getElementById("theme");
@@ -112,5 +121,7 @@
             themes.item(index).remove();
             index--;
         })
-    </script>
+
+    
+</script>
 }

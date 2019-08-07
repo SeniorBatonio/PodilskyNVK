@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace PodilskyNVK.Controllers
 {
+    [RequireHttps]
     public class AboutSchoolController : Controller
     {
         IRepository repository;
@@ -23,6 +24,7 @@ namespace PodilskyNVK.Controllers
             return View("GetPost", post);
         }
 
+        [Authorize(Roles = "Director")]
         [HttpGet]
         public ActionResult AddEmployee()
         {
@@ -31,6 +33,7 @@ namespace PodilskyNVK.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Director")]
         [HttpPost]
         public ActionResult AddEmployee(Employee employee)
         {
