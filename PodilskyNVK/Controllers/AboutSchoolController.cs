@@ -16,7 +16,6 @@ namespace PodilskyNVK.Controllers
             repository = r;
         }
 
-
         public ActionResult SchoolHistory()
         {
             ViewBag.Header = "Історія школи";
@@ -35,17 +34,58 @@ namespace PodilskyNVK.Controllers
 
         [Authorize(Roles = "Director")]
         [HttpPost]
-        public ActionResult AddEmployee(Employee employee)
+        public ActionResult AddEmployee(Employee employee, string addedPhoto)
         {
-            var file = Request.Files.Get("Image");
-            if (file != null)
+            if (addedPhoto != null)
             {
-                employee.Photo = new byte[file.ContentLength];
-                file.InputStream.Read(employee.Photo, 0, file.ContentLength);
+                employee.Photo = Convert.FromBase64String(addedPhoto);
             }
 
-            repository.SaveEmployee(employee);
+            repository.AddEmployee(employee);
             return RedirectToAction("Administration");
+        }
+
+        [Authorize(Roles = "Director")]
+        [HttpGet]
+        public ActionResult EditEmployee(int id)
+        {
+            var employee = repository.GetEmployee(id);
+            var roles = new SelectList(Enum.GetValues(typeof(EmployeeRole)).Cast<EmployeeRole>(), employee.Role);
+            ViewBag.Roles = roles;
+            return View(employee);
+        }
+
+        [Authorize(Roles = "Director")]
+        [HttpPost]
+        public ActionResult EditEmployee(Employee employee, string addedPhoto, bool? isDeleted)
+        {
+            var newEmployee = repository.GetEmployee(employee.Id);
+            newEmployee.Name = employee.Name;
+            newEmployee.Position = employee.Position;
+            newEmployee.AboutEmploee = employee.AboutEmploee;
+            newEmployee.Role = employee.Role;
+
+            if (isDeleted != null && isDeleted == true)
+            {
+                newEmployee.Photo = null;
+            }
+            if (addedPhoto != null)
+            {
+                newEmployee.Photo = Convert.FromBase64String(addedPhoto);
+            }
+
+            repository.SaveEmployee(newEmployee);
+
+            return RedirectToAction("Administration");
+        }
+
+        [Authorize(Roles = "Director")]
+        [HttpGet]
+        public ActionResult DeleteEmployee(int id)
+        {
+            repository.DeleteEmployee(id);
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult Administration()
@@ -60,53 +100,60 @@ namespace PodilskyNVK.Controllers
             return View("ListEmployees", repository.EmployeesList().Where(e => e.Role == EmployeeRole.Teacher));
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             ViewBag.Header = "Про школу";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "Про школу"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
 
-        public ActionResult MethodicalWork()
+        public ActionResult MethodicalWork(int page = 1)
         {
             ViewBag.Header = "Методична робота";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "Методична робота"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
 
-        public ActionResult SchoolHelp()
+        public ActionResult SchoolHelp(int page = 1)
         {
             ViewBag.Header = "Допомога школі";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "Допомога школі"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
 
-        public ActionResult NUS()
+        public ActionResult NUS(int page = 1)
         {
             ViewBag.Header = "НУШ";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "НУШ"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
 
-        public ActionResult Documents()
+        public ActionResult Documents(int page = 1)
         {
             ViewBag.Header = "Документи";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "Документи"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
 
-        public ActionResult Library()
+        public ActionResult Library(int page = 1)
         {
             ViewBag.Header = "Бібліотека";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "Бібліотека"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
 
-        public ActionResult PreSchool()
+        public ActionResult PreSchool(int page = 1)
         {
             ViewBag.Header = "Дошкілля";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "Дошкілля"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
     }
 }

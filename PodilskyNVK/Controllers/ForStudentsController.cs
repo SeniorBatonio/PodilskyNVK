@@ -15,38 +15,41 @@ namespace PodilskyNVK.Controllers
         {
             repository = r;
         }
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             ViewBag.Header = "Учням";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "Учням"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
 
-        public ActionResult ZNOandDPA()
+        public ActionResult ZNOandDPA(int page = 1)
         {
             ViewBag.Header = "ЗНО та ДПА";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "ЗНО та ДПА"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
 
-        public ActionResult LifeSafety()
+        public ActionResult LifeSafety(int page = 1)
         {
             ViewBag.Header = "Безпека життєдіяльності";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "Безпека життєдіяльності"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
 
-        public ActionResult UsefulInformation()
+        public ActionResult UsefulInformation(int page = 1)
         {
             ViewBag.Header = "Корисна інформація";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "Корисна інформація"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
 
-        public ActionResult LessonsSchedule()
+        public ActionResult LessonsSchedule(int page = 1)
         {
-            
-            return View();
+            return RedirectToAction("GetPost", "Home", new { id = 1022 });
         }
     }
 }

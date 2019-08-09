@@ -26,12 +26,24 @@
                 <img class="fullPhoto" id="fullPhoto" src="~/Content/NullPhoto.png" />
             </div>
             <div class="modal-footer">
+                @if (this.User.IsInRole("Admin") || this.User.IsInRole("Director"))
+                {
+                    @Html.ActionLink("Видалити", "DeletePhoto", new { }, new { @class = "confirmation", id = "deleteBtn", onclick = "confirmation()"})
+                }
+                else
+                {
+                    @Html.ActionLink("Видалити", "DeletePhoto", new { }, new { @class = "confirmation", id = "deleteBtn", onclick = "confirmation()", hidden = "true" })
+                }
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    function confirmation () {
+    return confirm('Ви впевнені що хочете видалити це фото?');
+    }
+
     var modal = document.getElementById("PhotoModal");
 
 // Get the button that opens the modal
@@ -42,10 +54,12 @@ var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on the button, open the modal 
 function fullPhoto (btnId) {
-        var img = document.getElementById(btnId);
-        var photo = document.getElementById("fullPhoto");
-        photo.setAttribute("src", img.getAttribute("src"));
-        modal.style.display = "block";
+    var img = document.getElementById(btnId);
+    var delBtn = document.getElementById("deleteBtn")
+    var photo = document.getElementById("fullPhoto");
+    photo.setAttribute("src", img.getAttribute("src"));
+    delBtn.setAttribute("href", "/Gallery/DeletePhoto/" + btnId);
+    modal.style.display = "block";
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -59,5 +73,7 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+
 </script>
 

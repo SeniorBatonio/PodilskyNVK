@@ -192,6 +192,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PagingHelpers.cs" />
     <Compile Include="Migrations\201907250045079_InitialCreate.cs" />
     <Compile Include="Migrations\201907250045079_InitialCreate.Designer.cs">
       <DependentUpon>201907250045079_InitialCreate.cs</DependentUpon>
@@ -253,6 +254,8 @@
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PageFilter.cs" />
+    <Compile Include="Models\PageInfo.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\SchoolContext.cs" />
     <Compile Include="Models\Theme.cs" />
@@ -266,7 +269,8 @@
     <Compile Include="Util\NinjectRegistrations.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\AddEditScripts.js" />
+    <Content Include="Content\AddEditEmployeeScripts.js" />
+    <Content Include="Content\AddEditPostScripts.js" />
     <Content Include="Content\AddPhoto.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -300,6 +304,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\EditPost.cshtml" />
+    <Content Include="Views\AboutSchool\EditEmployee.cshtml" />
+    <Content Include="Views\Account\AddAdministrator.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

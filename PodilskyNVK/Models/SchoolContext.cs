@@ -9,17 +9,25 @@ namespace PodilskyNVK.Models
     public interface IRepository
     {
         void AddPost(Post post);
+        void AddEmployee(Employee employee);
+        void AddPhoto(Photo photo);
+        void AddPhotos(IEnumerable<Photo> photos);
+
         void SavePost(Post post);
         void SaveEmployee(Employee employee);
-        void SavePhoto(Photo photo);
+
         IEnumerable<Post> PostsList();
         IEnumerable<Theme> ThemesList();
         IEnumerable<Employee> EmployeesList();
         IEnumerable<Photo> PhotoList();
+
         Post GetPost(int id);
         Theme GetTheme(int id);
-        void SavePhotos(IEnumerable<Photo> photos);
+        Employee GetEmployee(int id);
+
         void DeletePost(int id);
+        void DeleteEmployee(int id);
+        void DeletePhoto(int id);
     }
     public class SchoolContext : DbContext
     {
@@ -88,13 +96,13 @@ namespace PodilskyNVK.Models
             return db.Employees.Find(id);
         }
 
-        public void SaveEmployee(Employee employee)
+        public void AddEmployee(Employee employee)
         {
             db.Employees.Add(employee);
             db.SaveChanges();
         }
 
-        public void SavePhoto(Photo photo)
+        public void AddPhoto(Photo photo)
         {
             db.Photos.Add(photo);
             db.SaveChanges();
@@ -105,7 +113,7 @@ namespace PodilskyNVK.Models
             return db.Photos.ToList();
         }
 
-        public void SavePhotos(IEnumerable<Photo> photos)
+        public void AddPhotos(IEnumerable<Photo> photos)
         {
             db.Photos.AddRange(photos);
             db.SaveChanges();
@@ -120,6 +128,31 @@ namespace PodilskyNVK.Models
                 db.Posts.Remove(p);
                 db.SaveChanges();
             }
+        }
+
+        public Employee GetEmployee(int id)
+        {
+            return db.Employees.Find(id);
+        }
+
+        public void SaveEmployee(Employee employee)
+        {
+            db.Entry(employee).State = EntityState.Modified;
+            db.SaveChanges();
+        }
+
+        public void DeleteEmployee(int id)
+        {
+            Employee employee = new Employee { Id = id }; 
+            db.Entry(employee).State = EntityState.Deleted;
+            db.SaveChanges();
+        }
+
+        public void DeletePhoto(int id)
+        {
+            Photo photo = new Photo { Id = id };
+            db.Entry(photo).State = EntityState.Deleted;
+            db.SaveChanges();
         }
     }
 

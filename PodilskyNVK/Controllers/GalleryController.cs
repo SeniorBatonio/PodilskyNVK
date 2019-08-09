@@ -29,21 +29,25 @@ namespace PodilskyNVK.Controllers
 
         [Authorize(Roles = "Director, Admin")]
         [HttpPost]
-        public ActionResult AddPhotos(object input)
+        public ActionResult AddPhotos(string[] addedImages)
         {
             List<Photo> photos = new List<Photo>();
-            var files = Request.Files.GetMultiple("Images");
-            foreach (var file in files)
+            foreach (var img in addedImages)
             {
-                if (file.ContentLength != 0)
-                {
-                    Photo photo = new Photo();
-                    photo.Image = new byte[file.ContentLength];
-                    file.InputStream.Read(photo.Image, 0, file.ContentLength);
-                    photos.Add(photo);
-                }
+                Photo photo = new Photo();
+                photo.Image = Convert.FromBase64String(img);
+                photos.Add(photo);
             }
-            repository.SavePhotos(photos);
+            repository.AddPhotos(photos);
+            return RedirectToAction("Index");
+        }
+
+
+        [Authorize(Roles = "Director, Admin")]
+        public ActionResult DeletePhoto(int id)
+        {
+            repository.DeletePhoto(id);
+
             return RedirectToAction("Index");
         }
     }

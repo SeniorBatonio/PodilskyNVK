@@ -18,10 +18,11 @@ namespace PodilskyNVK.Controllers
         {
             repository = r;
         }
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             ViewBag.Header = "Новини";
-            return View("NewsFeed", repository.PostsList());
+            var nvm = Pager.Paging(repository.PostsList(), page);
+            return View("NewsFeed", nvm);
         }
 
         public ActionResult GetPost(int id)
@@ -29,7 +30,7 @@ namespace PodilskyNVK.Controllers
             return View(repository.GetPost(id));
         }
 
-        //[Authorize(Roles = "Director, Admin")]
+        [Authorize(Roles = "Director, Admin")]
         [HttpGet]
         public ActionResult AddPost()
         {
@@ -38,20 +39,22 @@ namespace PodilskyNVK.Controllers
             return View();
         }
 
-        //[Authorize(Roles = "Director, Admin")]
+        [Authorize(Roles = "Director, Admin")]
         [HttpPost]
         public ActionResult AddPost(Post post, int[] selectedThemes, string[] addedImages)
         {
             List<Photo> photos = new List<Photo>();
-
-            foreach(var img in addedImages)
+            if(addedImages != null)
             {
-                Photo photo = new Photo();
-                var image = "";
-                image = string.Concat(img.Skip(23));
-                photo.Image = Convert.FromBase64String(image);
-                photo.Post = post;
-                photos.Add(photo);
+                foreach (var img in addedImages)
+                {
+                    Photo photo = new Photo();
+                    var image = "";
+                    image = string.Concat(img.Skip(23));
+                    photo.Image = Convert.FromBase64String(image);
+                    photo.Post = post;
+                    photos.Add(photo);
+                }
             }
 
             foreach (var theme in repository.ThemesList().Where(t => selectedThemes.Contains(t.Id)))
@@ -67,9 +70,9 @@ namespace PodilskyNVK.Controllers
             return RedirectToAction("Index");
         }
 
-        //[Authorize(Roles = "Director, Admin")]
+        [Authorize(Roles = "Director, Admin")]
         [HttpGet]
-        public ActionResult EditPost(int id) //TODO: Додати видалення теми з форми
+        public ActionResult EditPost(int id) 
         {
             var themes = new List<SelectList>();
             var post = repository.GetPost(id);
@@ -86,7 +89,7 @@ namespace PodilskyNVK.Controllers
             return View(post);
         }
 
-        //[Authorize(Roles = "Director, Admin")]
+        [Authorize(Roles = "Director, Admin")]
         [HttpPost]
         public ActionResult EditPost(Post post, int[] selectedThemes, int[] deletedPhotos, string[] addedImages)
         {
@@ -121,18 +124,16 @@ namespace PodilskyNVK.Controllers
                 foreach (var img in addedImages)
                 {
                     Photo photo = new Photo();
-                    var image = "";
-                    image = string.Concat(img.Skip(23));
-                    photo.Image = Convert.FromBase64String(image);
+                    photo.Image = Convert.FromBase64String(img);
                     photo.Post = newPost;
-                    repository.SavePhoto(photo);
+                    repository.AddPhoto(photo);
                 }
             }
-
 
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Director, Admin")]
         public ActionResult DeletePost(int id)
         {
             repository.DeletePost(id);

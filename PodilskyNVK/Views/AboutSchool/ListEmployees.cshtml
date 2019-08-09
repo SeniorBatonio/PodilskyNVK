@@ -12,7 +12,7 @@
     {
         <div class="news-less">
             <div class="photo">
-                @if (item.Photo.Length != 0)
+                @if (item.Photo != null)
                 {
                     @Html.Raw("<img src=\"data:image/jpeg;base64,"
                                              + Convert.ToBase64String(item.Photo) + "\" />")
@@ -26,11 +26,29 @@
                 <h2 style="font-weight:bold;">@item.Position:</h2>
                 <h2>@item.Name</h2>
 
-                <div class="news-text">
+                <div class="news-text" style="height:auto">
                     <p>@item.AboutEmploee</p>
+                </div>
+                <div>
+                    @if (this.User.IsInRole("Director"))
+                    {
+                        <p>
+                            @Html.ActionLink("Редагувати", "EditEmployee", new { id = item.Id }) |
+                            @Html.ActionLink("Видалити", "DeleteEmployee", new { id = item.Id }, new { @class = "confirmation" })
+                        </p>
+                    }
                 </div>
             </div>
         </div>
     }
 
 </div>
+
+@section Scripts
+{
+    <script>
+         $('.confirmation').on('click', function () {
+        return confirm('Ви впевнені що хочете видалити цього робітника?');
+    });
+    </script>
+}

@@ -17,7 +17,8 @@ function photoToBase64(file) {
     reader.onload = function () {
         var addedHTML1 = "<img  onclick='removeNewImg(this)' class='new-photo' src=\""
             + reader.result + "\" />";
-        var addedHTML2 = "<input type='radio' class='added-photos' value=" + reader.result + " hidden checked='checked'/>"
+        var data = reader.result.replace(/^data:image\/(png|jpeg|jpg);base64,/, "");
+        var addedHTML2 = "<input type='radio' class='added-photos' value=" + data + " hidden checked='checked'/>"
         $('#added').append(addedHTML2);
         $('#photos').append(addedHTML1);
         j++;

@@ -16,11 +16,12 @@ namespace PodilskyNVK.Controllers
         {
             repository = r;
         }
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             ViewBag.Header = "Батькам";
             var news = repository.PostsList().Where(p => p.Themes.Any(t => t.Name == "Батькам"));
-            return View("NewsFeed", news);
+            var nvm = Pager.Paging(news, page);
+            return View("NewsFeed", nvm);
         }
     }
 }

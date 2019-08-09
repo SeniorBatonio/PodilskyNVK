@@ -155,7 +155,6 @@ namespace PodilskyNVK.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await UserManager.AddToRoleAsync(user.Id, "User");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // Дополнительные сведения о включении подтверждения учетной записи и сброса пароля см. на странице https://go.microsoft.com/fwlink/?LinkID=320771.
@@ -424,6 +423,27 @@ namespace PodilskyNVK.Controllers
             base.Dispose(disposing);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Director")]
+        public ActionResult AddAdministrator()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Director")]
+        public async Task<ActionResult> AddAdministrator(ExternalLoginConfirmationViewModel model)
+        {
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if(user!=null)
+            {
+                await UserManager.AddToRoleAsync(user.Id, "Admin");
+            }
+            
+
+            return RedirectToAction("Index", "Manage");
+        }
+
         #region Вспомогательные приложения
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа
         private const string XsrfKey = "XsrfId";
@@ -482,5 +502,7 @@ namespace PodilskyNVK.Controllers
             }
         }
         #endregion
+
+       
     }
 }

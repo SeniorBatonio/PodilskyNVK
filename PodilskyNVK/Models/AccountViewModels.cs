@@ -5,7 +5,7 @@ namespace PodilskyNVK.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Потрібно поле 'Адреса електронної пошти'")]
         [Display(Name = "Адреса електронної пошти")]
         public string Email { get; set; }
     }
@@ -41,19 +41,19 @@ namespace PodilskyNVK.Models
 
     public class ForgotViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Потрібно поле 'Адреса електронної пошти'")]
         [Display(Name = "Адреса електронної пошти")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Потрібно поле 'Адреса електронної пошти'")]
         [Display(Name = "Адреса електронної пошти")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Поле 'Адреса електронної пошти' не містить допустиму адресу електроної пошти.")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Потрібно поле 'Пароль'")]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }

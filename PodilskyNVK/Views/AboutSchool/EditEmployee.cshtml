@@ -1,19 +1,22 @@
 ﻿@model PodilskyNVK.Models.Employee
 
 @{
-    ViewBag.Title = "AddEmploee";
+    ViewBag.Title = "EditEmployee";
 }
 
-<h2>Додати робітника</h2>
+<h2>EditEmployee</h2>
 
 
-@using (Html.BeginForm("AddEmployee", "AboutSchool", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditEmployee", "AboutSchool", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
+        <h4>Employee</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -21,6 +24,7 @@
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Position, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -33,24 +37,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AboutEmploee, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.AboutEmploee, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.AboutEmploee, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AboutEmploee, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.Label("Фото", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" id="photo">
-                <label class="custom-input">
-                    <input id="inputPhoto" onchange="addPhoto()" type="file" accept="image/jpeg" name="Image" title="Додати фото" class="form-control-file" />
-                    <img style="width: 30px;height: 30px;" src="~/Content/AddPhoto.png" />
-                </label>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-10" id="added">
-
             </div>
         </div>
 
@@ -62,8 +50,38 @@
         </div>
 
         <div class="form-group">
+            @Html.Label("Фото", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="photo">
+                @if (Model.Photo.Length == 0)
+                {
+                    <label class="custom-input">
+                        <input id="inputPhoto" onchange="addPhoto()" type="file" accept="image/jpeg" name="Image" title="Додати фото" class="form-control-file" />
+                        <img style="width: 30px;height: 30px;" src="~/Content/AddPhoto.png" />
+                    </label>
+                }
+                else
+                {
+                    @Html.Raw("<img onclick='removeImg(this)'  class='edit-image' src=\"data:image/jpeg;base64,"
+              + Convert.ToBase64String(Model.Photo) + "\" />")
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10" id="deleted">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10" id="added">
+
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Створити" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>

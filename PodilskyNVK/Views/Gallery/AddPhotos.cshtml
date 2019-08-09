@@ -7,16 +7,33 @@
 <h2>Додати фото до галереї</h2>
 
 
-@using (Html.BeginForm("AddPhotos", "Gallery", FormMethod.Post, new { enctype = "multipart/form-data"})) 
+@using (Html.BeginForm("AddPhotos", "Gallery", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
 <div class="form-horizontal">
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.Label("Фото", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.Label("Додати фото", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input type="file" name="Images" class="form-control-file" multiple />
+            <label class="custom-input">
+                <input id="inputPhotos" type="file" accept="image/jpeg" name="Images" class="form-control-file" multiple />
+                <img style="width: 30px;height: 30px;" src="~/Content/AddPhoto.png" />
+            </label>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Видалити фото", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10" id="photos">
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10" id="added">
+
         </div>
     </div>
 
@@ -34,4 +51,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/AddEditScripts.js")
 }
