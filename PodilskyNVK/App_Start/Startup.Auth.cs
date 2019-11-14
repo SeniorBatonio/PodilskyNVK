@@ -54,15 +54,15 @@ namespace PodilskyNVK
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            app.UseFacebookAuthentication(
-               appId: "350937749156598",
-               appSecret: "52e4e3f5a84b6a0322ef973d81fa809d");
+            //app.UseFacebookAuthentication(
+            //   appId: "",
+            //   appSecret: "");
 
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            {
-                ClientId = "377093716418-cmn1g02h8it3mmtd7lgl5rcts5n7uain.apps.googleusercontent.com",
-                ClientSecret = "PEV0bXVoYsnp40KKiojG49Is"
-            });
+            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = "",
+            //    ClientSecret = ""
+            //});
         }
     }
 }
